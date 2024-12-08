@@ -32,6 +32,65 @@ function display(q){
 	system("sleep 0.0025")
 
 }
+function detectLoop(q,r,c){
+	printf "\033[H\033[J";
+	display(q)
+	direction=1
+	inRange=1
+	while(inRange){
+		if(r > NR || r < 1 || c > NF || c < 1){ break}
+                if(direction==1){
+                        q[r,c]="X"
+                        if(q[r-1, c]=="#"){
+                                direction=2
+                        }
+                        else{
+                                r--
+
+                        }
+                        q[r,c]="^"
+                }
+                else if(direction==2){
+                        q[r, c] = "X"
+                        print "Editing"
+                        if(q[r,c+1] =="#"){
+                                direction=3
+                        }
+                        else{c++;
+                        }
+                        q[r,c] = ">"
+                }
+                else if(direction==3){
+                        q[r,c]="X"
+                        if(q[r+1,c]=="#"){
+                                direction=4
+                        }
+                        else{r++;
+                        }
+                        q[r,c]="V"
+                }
+                else if(direction==4){
+                        q[r,c]="X"
+                        if(q[r,c-1]=="#"){
+                                direction=1
+                        }
+                        else{c--;
+                        }
+                        q[r,c]="<"
+
+                }
+
+
+                display(q)
+
+		
+
+	}
+
+
+
+
+}
 END{
     printf "\033[H\033[J";
 	
